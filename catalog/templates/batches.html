@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>采集批次</h1>
+{% for x in bs %}
+<h2>批次 #{{ x.batch.id }}
+  <span class="badge {{ 'ok' if x.batch.status=='ok' else ('warn' if x.batch.status=='partial' else 'err') }}">{{ x.batch.status }}</span>
+</h2>
+<p class="muted">{{ x.batch.started_at }} → {{ x.batch.finished_at or '—' }}</p>
+<table>
+  <tr><th>来源</th><th>状态</th><th>抓取</th><th>新增</th><th>更新</th><th>未变</th><th>隔离</th><th>批内重复</th><th>错误</th></tr>
+  {% for p in x.parts %}
+  <tr>
+    <td>{{ p.code }}</td>
+    <td><span class="badge {{ 'ok' if p.status=='ok' else 'err' }}">{{ p.status }}</span></td>
+    <td>{{ p.fetched }}</td><td>{{ p.inserted }}</td><td>{{ p.updated }}</td>
+    <td>{{ p.unchanged }}</td><td>{{ p.quarantined }}</td><td>{{ p.duplicates }}</td>
+    <td class="err-text">{{ p.error or '' }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endfor %}
+{% endblock %}

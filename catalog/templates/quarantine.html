@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>隔离区（失败样本）</h1>
+<p class="muted">单位或货币无法判断的记录进入隔离区；修订规则后只重算受影响记录，命中即恢复。</p>
+<table>
+  <tr><th>#</th><th>来源</th><th>外部ID</th><th>隔离原因</th><th>原始单位</th><th>原始货币</th><th>原文</th><th></th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.id }}</td>
+    <td>{{ r.source_code }}</td>
+    <td>{{ r.external_id }}</td>
+    <td><span class="badge err">{{ r.quarantine_reason }}</span></td>
+    <td class="mono">{{ r.raw.unit }}</td>
+    <td class="mono">{{ r.raw.currency }}</td>
+    <td><details><summary>查看</summary><pre>{{ r.raw_json }}</pre></details></td>
+    <td><a href="{{ url_for('record_detail', rid=r.id) }}">详情</a></td>
+  </tr>
+  {% endfor %}
+  {% if not rows %}<tr><td colspan="8" class="muted">隔离区为空</td></tr>{% endif %}
+</table>
+{% endblock %}

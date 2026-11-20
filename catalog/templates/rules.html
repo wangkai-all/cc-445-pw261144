@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>规则版本</h1>
+<p class="muted">修订规则 = 创建新版本并激活；回退 = 重新激活旧版本。激活时只重算受规则差异影响的记录。</p>
+
+{% for x in srcs %}
+<h2>{{ x.source.code }} — {{ x.source.name }}</h2>
+<table>
+  <tr><th>版本</th><th>状态</th><th>说明</th><th>创建时间</th><th></th></tr>
+  {% for v in x.versions %}
+  <tr>
+    <td>v{{ v.version }}</td>
+    <td>{% if v.status=='active' %}<span class="badge ok">active</span>{% else %}<span class="badge">inactive</span>{% endif %}</td>
+    <td>{{ v.note }}</td>
+    <td>{{ v.created_at }}</td>
+    <td>
+      {% if v.status != 'active' %}
+      <form method="post" action="{{ url_for('rule_activate', sid=x.source.id, version=v.version) }}">
+        <button type="submit">激活（回退到此版本）</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<details>
+  <summary>当前规则内容（v{{ x.active.version if x.active else '—' }}）</summary>
+  <pre>{{ x.active_pretty }}</pre>
+</details>
+
+<details>
+  <summary>基于此创建新版本</summary>
+  <form method="post" action="{{ url_for('rule_new', sid=x.source.id) }}">
+    <textarea name="rules_json" rows="14" cols="90">{{ x.active_pretty }}</textarea><br>
+    <input name="note" placeholder="修订说明" size="40">
+    <button type="submit">创建并激活（自动重算受影响记录）</button>
+  </form>
+</details>
+{% endfor %}
+{% endblock %}

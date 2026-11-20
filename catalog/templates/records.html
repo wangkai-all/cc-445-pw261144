@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>记录</h1>
+<form method="get" class="filters">
+  <select name="source">
+    <option value="">全部来源</option>
+    {% for s in sources %}<option value="{{ s.code }}" {{ 'selected' if src==s.code }}>{{ s.code }}</option>{% endfor %}
+  </select>
+  <select name="status">
+    <option value="">全部状态</option>
+    <option value="normalized" {{ 'selected' if status=='normalized' }}>normalized</option>
+    <option value="quarantined" {{ 'selected' if status=='quarantined' }}>quarantined</option>
+  </select>
+  <button type="submit">筛选</button>
+</form>
+<table>
+  <tr><th>#</th><th>来源</th><th>外部ID</th><th>名称</th><th>原文（数量/单位/价格/货币）</th><th>归一化结果</th><th>规则版本</th><th>状态</th><th></th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.id }}</td>
+    <td>{{ r.source_code }}</td>
+    <td>{{ r.external_id }}</td>
+    <td>{{ r.norm.name if r.norm else '—' }}</td>
+    <td class="mono">{{ r.raw.qty }} {{ r.raw.unit }} / {{ r.raw.currency }}{{ r.raw.price }}</td>
+    <td class="mono">
+      {% if r.norm %}{{ r.norm.qty }} {{ r.norm.unit }} / {{ r.norm.currency }} {{ r.norm.price }}{% else %}—{% endif %}
+    </td>
+    <td>v{{ r.rule_version }}</td>
+    <td><span class="badge {{ 'ok' if r.status=='normalized' else 'err' }}">{{ r.status }}</span></td>
+    <td><a href="{{ url_for('record_detail', rid=r.id) }}">详情</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

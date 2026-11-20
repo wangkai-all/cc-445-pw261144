@@ -1,0 +1,8 @@
+{
+  "items": [
+    {"id": "C-3001", "names": {"en": "Paper Towels"}, "qty": 6, "unit": "pcs", "price": "8.99", "currency": "$"},
+    {"id": "C-3002", "names": {"en": "Ground Coffee"}, "qty": 12, "unit": "oz", "price": "11.49", "currency": "$"},
+    {"id": "C-3003", "names": {"en": "Free-range Eggs"}, "qty": 1, "unit": "dozen", "price": "4.29", "currency": "$"},
+    {"id": "C-3004", "names": {"en": "Dog Food"}, "qty": 20, "unit": "lb", "price": "45.00", "currency": "USD"}
+  ]
+}

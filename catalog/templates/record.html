@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>记录 #{{ r.id }} — {{ r.source_code }} / {{ r.external_id }}</h1>
+<p>
+  状态：<span class="badge {{ 'ok' if r.status=='normalized' else 'err' }}">{{ r.status }}</span>
+  {% if r.quarantine_reason %}<span class="badge err">{{ r.quarantine_reason }}</span>{% endif %}
+  当前规则版本：v{{ r.rule_version }}
+</p>
+
+<div class="cols">
+  <div>
+    <h2>原文</h2>
+    <pre>{{ raw_pretty }}</pre>
+  </div>
+  <div>
+    <h2>当前归一化结果</h2>
+    {% if norm %}
+    <table>
+      <tr><th>显示名</th><td>{{ norm.name }}</td></tr>
+      <tr><th>数量</th><td class="mono">{{ norm.qty }} {{ norm.unit }}
+        <span class="muted">（原文 {{ raw.qty }} {{ raw.unit }}）</span></td></tr>
+      <tr><th>价格</th><td class="mono">{{ norm.currency }} {{ norm.price }}
+        <span class="muted">（原文 {{ raw.currency }}{{ raw.price }}）</span></td></tr>
+      <tr><th>多语言名</th><td>{% for k, v in norm.names.items() %}<div>{{ k }}: {{ v }}</div>{% endfor %}</td></tr>
+    </table>
+    {% else %}
+    <p class="muted">无（记录处于隔离区）</p>
+    {% endif %}
+  </div>
+</div>
+
+<h2>归一化历史与差异</h2>
+<table>
+  <tr><th>#</th><th>时间</th><th>触发</th><th>规则版本</th><th>状态</th><th>字段差异（旧 → 新）</th></tr>
+  {% for h in hist %}
+  <tr>
+    <td>{{ h.id }}</td>
+    <td>{{ h.created_at }}</td>
+    <td>{{ h.trigger }}</td>
+    <td>v{{ h.rule_version }}</td>
+    <td><span class="badge {{ 'ok' if h.status=='normalized' else 'err' }}">{{ h.status }}</span>
+        {% if h.quarantine_reason %}<span class="badge err">{{ h.quarantine_reason }}</span>{% endif %}</td>
+    <td>
+      {% if h.diff %}
+        {% for f, old, new in h.diff %}
+        <div class="mono">{{ f }}: <del>{{ old if old is not none else '∅' }}</del> → <ins>{{ new if new is not none else '∅' }}</ins></div>
+        {% endfor %}
+      {% else %}
+        <span class="muted">（无字段变化）</span>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

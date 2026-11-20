@@ -1,0 +1,9 @@
+{
+  "items": [
+    {"id": "B-2001", "names": {"de": "Bio-Vollmilch", "en": "Organic Whole Milk"}, "qty": "1", "unit": "Liter", "price": "1,29", "currency": "€"},
+    {"id": "B-2002", "names": {"de": "Weizenmehl", "en": "Wheat Flour"}, "qty": "2,5", "unit": "kg", "price": "1.899,95", "currency": "€"},
+    {"id": "B-2003", "names": {"fr": "Fromage blanc", "en": "Fresh Cheese"}, "qty": "500", "unit": "g", "price": "4,50", "currency": "€"},
+    {"id": "B-2004", "names": {"de": "Erdbeermarmelade"}, "qty": "1", "unit": "Glas", "price": "3,20", "currency": "€"},
+    {"id": "B-2005", "names": {"en": "Shortbread"}, "qty": "250", "unit": "g", "price": "2,10", "currency": "£"}
+  ]
+}

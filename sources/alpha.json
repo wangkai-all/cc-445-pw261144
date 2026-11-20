@@ -1,0 +1,9 @@
+{
+  "items": [
+    {"id": "A-1001", "names": {"zh": "红富士苹果", "en": "Red Fuji Apple"}, "qty": "5", "unit": "千克", "price": "1,280.50", "currency": "¥"},
+    {"id": "A-1002", "names": {"zh": "赣南脐橙"}, "qty": "10", "unit": "斤", "price": "66.00", "currency": "元"},
+    {"id": "A-1003", "names": {"zh": "青岛啤酒", "en": "Tsingtao Beer"}, "qty": "24", "unit": "箱", "price": "98.00", "currency": "¥"},
+    {"id": "A-1004", "names": {"zh": "进口奶粉"}, "qty": "2", "unit": "罐", "price": "456.00", "currency": "¥"},
+    {"id": "A-1005", "names": {"zh": "泰国香米", "en": "Thai Jasmine Rice"}, "qty": "25", "unit": "袋", "price": "12,999.99", "currency": "¥"}
+  ]
+}
